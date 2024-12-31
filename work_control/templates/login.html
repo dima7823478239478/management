@@ -1,0 +1,230 @@
+<div class="login-container">
+  <h2 style="color: green;">Login</h2>
+  <form class="login-form" method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ form.as_p }}
+    </div>
+
+    <!-- Password visibility toggle -->
+    <div class="form-group">
+      <button type="button" class="show-password-btn" onclick="togglePassword()">Show</button>
+    </div>
+
+    <button type="submit">Login</button>
+  </form>
+
+  <!-- Theme toggle button -->
+  <button class="theme-toggle-btn" onclick="toggleTheme()">Theme</button>
+</div>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  body.dark-theme {
+    background-color: #2c2c2c;
+    color: #e0e0e0;
+  }
+
+  .login-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    transition: background-color 0.3s;
+  }
+
+  .login-container.dark-theme {
+    background-color: #333;
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-group {
+    text-align: left;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 8px;
+  }
+
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+
+  .form-group label {
+    font-size: 14px;
+    color: #666;
+  }
+
+  .form-group input {
+    margin-top: 6px;
+  }
+
+  .form-group input:focus {
+    border-color: #4CAF50;
+    outline: none;
+  }
+
+  .login-container p {
+    font-size: 14px;
+    margin-top: 20px;
+    color: #777;
+  }
+
+  .login-container p a {
+    color: #4CAF50;
+    text-decoration: none;
+  }
+
+  .login-container p a:hover {
+    text-decoration: underline;
+  }
+
+  .show-password-btn {
+    background-color: transparent;
+    color: #4CAF50;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .theme-toggle-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .theme-toggle-btn:hover {
+    background-color: #45a049;
+  }
+
+  /* Responsive Styles */
+  @media screen and (max-width: 600px) {
+    .login-container {
+      padding: 15px;
+      max-width: 100%;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    .show-password-btn, .theme-toggle-btn {
+      font-size: 12px;
+      padding: 8px 16px;
+    }
+
+    button {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    h2 {
+      font-size: 18px;
+    }
+
+    input {
+      font-size: 14px;
+    }
+
+    button {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+</style>
+
+<script>
+  // Function to toggle the visibility of the password
+  function togglePassword() {
+    const passwordField = document.getElementById('id_password');
+    const passwordBtn = document.querySelector('.show-password-btn');
+    if (passwordField.type === 'password') {
+      passwordField.type = 'text';
+      passwordBtn.textContent = 'Hide';
+    } else {
+      passwordField.type = 'password';
+      passwordBtn.textContent = 'Show';
+    }
+  }
+
+  // Function to toggle dark/light theme
+  function toggleTheme() {
+    const body = document.body;
+    const container = document.querySelector('.login-container');
+
+    // Toggle the theme classes
+    body.classList.toggle('dark-theme');
+    container.classList.toggle('dark-theme');
+
+    // Save the theme preference to localStorage
+    if (body.classList.contains('dark-theme')) {
+      localStorage.setItem('theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+  // Function to apply the theme from localStorage on page load
+  function applySavedTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-theme');
+      document.querySelector('.login-container').classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+      document.querySelector('.login-container').classList.remove('dark-theme');
+    }
+  }
+
+  // Apply the saved theme when the page loads
+  window.onload = applySavedTheme;
+</script>
