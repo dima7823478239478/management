@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Статистика</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+    .green-link {
+        color: green;
+        text-decoration: none; /* Убирает подчеркивание */
+        font-size: 16px;
+        transition: color 0.3s;
+    }
+
+    .green-link:hover {
+        color: #45a049; /* Более светлый оттенок зелёного при наведении */
+        text-decoration: underline; /* Добавить подчеркивание при наведении, если нужно */
+    }
+
+
+
+        body.dark-theme {
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+        }
+
+        .statistics-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1000px;
+            max-height: 800px;
+            text-align: center;
+            transition: background-color 0.3s;
+            overflow-y: auto;
+        }
+
+        .statistics-container.dark-theme {
+            background-color: #333;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: green;
+            text-align: center;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-group label {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 18px;
+            margin-top: 6px;
+        }
+
+        .form-group input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .statistics {
+            margin-top: 30px;
+            text-align: left;
+            font-size: 18px;
+            color: green;
+        }
+
+        .switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #4CAF50;
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+        .worker-list {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .worker-list h3 {
+            color: green;
+        }
+
+        .card-container {
+        display: flex;
+        flex-direction: column; /* Устанавливаем карточки в столбик */
+        gap: 20px; /* Расстояние между карточками */
+        margin-top: 20px;
+        justify-content: flex-start; /* Выравнивание по началу */
+        align-items: stretch; /* Карточки будут растягиваться на всю ширину родителя */
+    }
+
+        .worker-card {
+        text-decoration: none; /* Убираем подчеркивание */
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 100%; /* Карточка занимает всю ширину контейнера */
+        text-align: center;
+        font-size: 16px;
+        color: #333;
+        transition: transform 0.2s, background-color 0.3s;
+    }
+
+        .worker-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        background-color: #e0ffe0; /* Подсветка при наведении */
+    }
+
+        .worker-card p {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .theme-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .theme-toggle-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 800px) {
+            .statistics-container {
+                padding: 25px;
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            h1 {
+                font-size: 22px;
+            }
+
+            input {
+                font-size: 16px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="statistics-container">
+    <h1>Поиск работника</h1>
+
+    <!-- Форма поиска работника -->
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="first_name">Имя:</label>
+            <input type="text" id="first_name" name="first_name" placeholder="Введите имя работника" required>
+        </div>
+        <div class="form-group">
+            <label for="second_name">Фамилия:</label>
+            <input type="text" id="second_name" name="second_name" placeholder="Введите фамилию работника" required>
+        </div>
+        <br>
+        <button type="submit">Поиск</button>
+    </form>
+
+    {% if worker %}
+        <!-- Вывод статистики найденного работника -->
+        <div class="statistics">
+            <h2>Статистика пользователя: {{ worker.first_name }} {{ worker.second_name }}</h2>
+            <p>Общее количество отработанных часов: {{ worker.work_hours }}</p>
+            <p>Общее количество выполненных заказов: {{ worker.amount_completed_offers }}</p>
+            <p>Стаж работы в компании: {{ worker.time_of_work }}</p>
+            <p>Эффективность: {{ orders_per_hour }} (заказов в час)</p>
+        </div>
+    {% elif error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+
+    <!-- Список всех работников со статусом "работник" -->
+    <div class="worker-list">
+        <h3>Список всех работников:</h3>
+
+        <!-- Кнопка для сортировки -->
+    <label class="switch">
+        <input type="checkbox" id="sort-toggle" onclick="sortWorkers()">
+        <span class="slider"></span>
+    </label>
+    <span style="color: green;"> Сортировать по эффективности</span>
+
+        <div class="card-container" id="card-container">
+    {% for employee in workers %}
+        <a href="{% url 'worker_statistics' employee.id %}" class="worker-card" data-efficiency="{{ employee.orders_per_hour }}">
+            <p><strong>{{ employee.first_name }} {{ employee.second_name }}</strong></p>
+            <p>Эффективность: {{ employee.orders_per_hour|floatformat:2 }}</p>
+        </a>
+    {% endfor %}
+</div>
+        <br>
+        <a href="{% url 'main_manager' %}" class="green-link">Вернуться на главную страницу</a>
+
+    </div>
+</div>
+
+<!-- Кнопка смены темы -->
+<button class="theme-toggle-btn" onclick="toggleTheme()">Сменить тему</button>
+
+<script>
+    function toggleTheme() {
+        const body = document.body;
+        const container = document.querySelector('.statistics-container');
+
+        body.classList.toggle('dark-theme');
+        container.classList.toggle('dark-theme');
+
+        if (body.classList.contains('dark-theme')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    function applySavedTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+            document.querySelector('.statistics-container').classList.add('dark-theme');
+        } else {
+            document.body.classList.remove('dark-theme');
+            document.querySelector('.statistics-container').classList.remove('dark-theme');
+        }
+    }
+
+    window.onload = applySavedTheme;
+
+
+    function sortWorkers() {
+    const container = document.getElementById('card-container');
+    const cards = Array.from(container.querySelectorAll('.worker-card'));
+    const toggle = document.getElementById('sort-toggle').checked;
+
+    if (toggle) {
+        // Сортируем по убыванию эффективности
+        cards.sort((a, b) => parseFloat(b.dataset.efficiency) - parseFloat(a.dataset.efficiency));
+    } else {
+        // Возвращаем в исходный порядок (по умолчанию от сервера)
+        cards.sort((a, b) => parseFloat(a.dataset.efficiency) - parseFloat(b.dataset.efficiency));
+    }
+
+    // Удаляем старые карточки и вставляем отсортированные
+    container.innerHTML = '';
+    cards.forEach(card => container.appendChild(card));
+}
+</script>
+
+</body>
+</html>

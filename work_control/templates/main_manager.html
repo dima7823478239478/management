@@ -2,10 +2,140 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Manager Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+        }
+
+        body.dark-theme {
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+        }
+
+        .manager-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .manager-container.dark-theme {
+            background-color: #333;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .theme-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .theme-toggle-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-ГЛАВНАЯ СТРАНИЦА МЕНЕДЖЕРА
+<div class="manager-container">
+    <h1 style="color: green;">ГЛАВНАЯ СТРАНИЦА МЕНЕДЖЕРА</h1>
+    <div class="button-group">
+        <a href="{% url 'statistics' %}">
+            <button>Статистика</button>
+        </a>
+        <a href="{% url 'magazine' %}">
+            <button>Журнал</button>
+        </a>
+        <a href="{% url 'add_user' %}">
+            <button>Добавить пользователя</button>
+        </a>
+        <a href="{% url 'search_worker' %}">
+            <button>Редактировать пользователя</button>
+        </a>
+        <a href="{% url 'add_task' %}">
+            <button>Добавить работу</button>
+        </a>
+        <a href="{% url 'edit_task' %}">
+            <button>Редактировать работу</button>
+        </a>
+        <!-- Кнопка выхода -->
+        <a href="{% url 'logout' %}">
+            <button>Выйти</button>
+        </a>
+    </div>
+</div>
+<button class="theme-toggle-btn" onclick="toggleTheme()">Тема</button>
 
+<script>
+    function toggleTheme() {
+        const body = document.body;
+        body.classList.toggle('dark-theme');
+        if (body.classList.contains('dark-theme')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    function applySavedTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        } else {
+            document.body.classList.remove('dark-theme');
+        }
+    }
+
+    window.onload = applySavedTheme;
+</script>
 </body>
 </html>

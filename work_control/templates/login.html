@@ -1,5 +1,5 @@
 <div class="login-container">
-  <h2 style="color: green;">Login</h2>
+  <h2 style="color: green;">Вход</h2>
   <form class="login-form" method="post" action="{% url 'login' %}">
     {% csrf_token %}
     <div class="form-group">
@@ -11,12 +11,12 @@
       <button type="button" class="show-password-btn" onclick="togglePassword()">Show</button>
     </div>
 
-    <button type="submit">Login</button>
+    <button type="submit">Вход</button>
   </form>
-
-  <!-- Theme toggle button -->
-  <button class="theme-toggle-btn" onclick="toggleTheme()">Theme</button>
 </div>
+
+<!-- Theme toggle button -->
+<button class="theme-toggle-btn" onclick="toggleTheme()">Тема</button>
 
 <style>
   body {
@@ -28,6 +28,7 @@
     height: 100vh;
     margin: 0;
     transition: background-color 0.3s, color 0.3s;
+    position: relative;
   }
 
   body.dark-theme {
@@ -129,15 +130,16 @@
   }
 
   .theme-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
     font-size: 14px;
-    margin-top: 20px;
     cursor: pointer;
-    width: 100%;
   }
 
   .theme-toggle-btn:hover {

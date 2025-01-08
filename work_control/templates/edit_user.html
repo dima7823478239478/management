@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать работника</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .green-link {
+            color: green;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .green-link:hover {
+            color: #45a049;
+            text-decoration: underline;
+        }
+
+        body.dark-theme {
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+        }
+
+        .statistics-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1000px;
+            max-height: 800px;
+            text-align: center;
+            transition: background-color 0.3s;
+            overflow-y: auto;
+        }
+
+        .statistics-container.dark-theme {
+            background-color: #333;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: green;
+            text-align: center;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-group label {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 18px;
+            margin-top: 6px;
+        }
+
+        .form-group input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .worker-list {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .worker-list h3 {
+            color: green;
+        }
+
+        .theme-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .theme-toggle-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 800px) {
+            .statistics-container {
+                padding: 25px;
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            h1 {
+                font-size: 22px;
+            }
+
+            input {
+                font-size: 16px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="statistics-container">
+    <h1>Редактирование информации о работнике</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="first_name">Имя:</label>
+            <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="second_name">Фамилия:</label>
+            <input type="text" id="second_name" name="second_name" value="{{ user.second_name }}" required>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="age">Возраст:</label>
+            <input type="number" id="age" name="age" value="{{ user.age }}" required>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="adress">Адрес:</label>
+            <input type="text" id="adress" name="adress" value="{{ user.adress }}" required>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="login">Логин:</label>
+            <input type="text" id="login" name="login" value="{{ user.login }}" required>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="is_staff">Менеджер:</label>
+            <input type="checkbox" id="is_staff" name="is_staff" {% if user.is_staff %}checked{% endif %}>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="is_active">Работник:</label>
+            <input type="checkbox" id="is_active" name="is_active" {% if user.is_active %}checked{% endif %}>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="date_of_birth">Дата рождения:</label>
+            <input type="date" id="date_of_birth" name="date_of_birth" value="{{ user.date_of_birth }}" required>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="email_adress">Email:</label>
+            <input type="email" id="email_adress" name="email_adress" value="{{ user.email_adress }}" required>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="phone_number">Телефон:</label>
+            <input type="text" id="phone_number" name="phone_number" value="{{ user.phone_number }}" required>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="work_hours">Часы работы:</label>
+            <input type="number" id="work_hours" name="work_hours" value="{{ user.work_hours }}" required>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="amount_completed_offers">Выполненные заказы:</label>
+            <input type="number" id="amount_completed_offers" name="amount_completed_offers" value="{{ user.amount_completed_offers }}" required>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="time_of_work">Стаж работы:</label>
+            <input type="text" id="time_of_work" name="time_of_work" value="{{ user.time_of_work }}" required>
+        </div>
+        <br>
+
+        <button type="submit">Сохранить изменения</button>
+    </form>
+
+    <br>
+    <a href="{% url 'search_worker'%}" class="green-link">Вернуться к работникам</a>
+</div>
+
+<!-- Кнопка смены темы -->
+<button class="theme-toggle-btn" onclick="toggleTheme()">Сменить тему</button>
+
+<script>
+    function toggleTheme() {
+        const body = document.body;
+        const container = document.querySelector('.statistics-container');
+
+        body.classList.toggle('dark-theme');
+        container.classList.toggle('dark-theme');
+
+        if (body.classList.contains('dark-theme')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    function applySavedTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+            document.querySelector('.statistics-container').classList.add('dark-theme');
+        } else {
+            document.body.classList.remove('dark-theme');
+            document.querySelector('.statistics-container').classList.remove('dark-theme');
+        }
+    }
+
+    window.onload = applySavedTheme;
+</script>
+
+</body>
+</html>

@@ -17,9 +17,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from app1 import views
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('main/', views.main_view, name='main'),
-    path('login/', views.login_view, name='login'),
+    path('main_manager/', views.main_manager_view, name='main_manager'),
+    path('main_user/', views.main_user_view, name='main_user'),
+    path('', views.login_view, name='login'),  # Вход
+    path('logout/', views.logout_view, name='logout'),  # Кастомный выход
+    path('statistics/', views.statistics_view, name='statistics'),
+    path('main_manager/add_user', views.add_user_view, name='add_user'),
+    path('edit_user/<int:worker_id>/', views.edit_user, name='edit_user'),  # Страница редактирования
+    path('search_worker/', views.search_worker, name='search_worker'),  # Страница редактирования
+    path('main_manager/add_task', views.add_task_view, name='add_task'),
+    path('main_manager/edit_task', views.edit_task_view, name='edit_task'),
+    path('main_manager/user_delete', views.user_delete, name='user_delete'),
+    path('statistics/<int:id>/', views.statistics_view, name='statistics_detail'),
+    path('worker/<int:worker_id>/', views.worker_statistics, name='worker_statistics'),
+    path('magazine/', views.magazine_view, name='magazine'),
+
 ]
