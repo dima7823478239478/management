@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import LoginForm
 from django.http import Http404
 from django.contrib.auth.models import Group
-from .models import User  # Импорт вашей модели User
+from .models import User
 from django.contrib.auth.decorators import login_required
 from .forms import UserEditForm
 from django.contrib import messages
@@ -14,6 +14,8 @@ from .models import User
 from django.db.models import Q
 from django.db.models import F, FloatField, ExpressionWrapper
 from django.contrib.auth import logout
+from .models import Offer
+from .forms import OfferForm
 
 
 
@@ -228,17 +230,29 @@ def add_user_view(request):
 
 
 
-def magazine_view(request):
-    return render(request, 'magazine.html')
 
-def add_task_view(request):
-    # Логика для добавления работы
-    return render(request, 'add_task.html')
+def offer_list(request):
+    offers = Offer.objects.all().order_by('dead_line')
+    return render(request, 'offer_list.html', {'offers': offers})
 
-def edit_task_view(request):
-    # Логика для редактирования работы
-    return render(request, 'edit_task.html')
+def add_offer(request):
+    if request.method == 'POST':
+        form = OfferForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('offer_list')  # Перенаправление на страницу списка заказов
+        else:
+            print(form.errors)  # Печать ошибок формы в консоль
+    else:
+        form = OfferForm()
+    return render(request, 'add_offer.html', {'form': form})
 
-def user_delete(request):
-    #Логика для удаления пользователей
-    return render(request, 'delete_user.html')
+def delete_user(request, worker_id):
+    user = get_object_or_404(User, id=worker_id)
+
+    if request.method == 'POST':
+        user.delete()
+        return redirect('search_worker')
+
+    print("Request method is not POST.")
+    return redirect('search_worker')

@@ -133,3 +133,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'app1.User'  # Укажите кастомную модель пользователя
 LOGIN_REDIRECT_URL = '/'  # URL после авторизации
 LOGOUT_REDIRECT_URL = '/login/'  # URL после выхода
+
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+

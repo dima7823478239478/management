@@ -55,3 +55,17 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
 
         return self.create_user(login, password, **extra_fields)
+
+
+
+class Offer(models.Model):
+    number_of_offer = models.CharField(max_length=30, unique=True)
+    dead_line = models.DateField()
+    amount_of_offer = models.IntegerField()
+    drowing = models.ImageField(upload_to='drawings/')  # Поле для загрузки изображения
+    description = models.TextField()
+    material = models.CharField(max_length=50)
+    order_of_operations = models.TextField()
+
+    def __str__(self):
+        return self.number_of_offer

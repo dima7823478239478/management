@@ -1,5 +1,7 @@
 from django import forms
 from .models import User
+from .models import Offer
+from django.core.exceptions import ValidationError
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -22,3 +24,10 @@ class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'second_name', 'age','is_active', 'is_staff', 'adress', 'date_of_birth', 'email_adress', 'phone_number', 'work_hours', 'amount_completed_offers', 'time_of_work']
+
+
+
+class OfferForm(forms.ModelForm):
+    class Meta:
+        model = Offer
+        fields = '__all__'
